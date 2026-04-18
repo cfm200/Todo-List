@@ -12,13 +12,21 @@ public class UserInterface {
     public void start() {
         int count = 0;
         while (true) {
-            System.out.println("Options: add, update, delete, mark-done, mark-in-progress");
+            System.out.println("Options: add, update, delete, mark-done, mark-in-progress, quit");
             String input = this.scanner.nextLine();
 
             switch (input) {
                 case "quit":
-                    System.out.println("Bye bye!");
+                    if (this.taskList.getListSize() == 0) {
+                        System.out.println("No tasks found.");
+                        return;
+                    }
+
+                    for (Task task : this.taskList.allTasks()) {
+                        System.out.println(task);
+                    }
                     return;
+
                 case "add":
                     System.out.print("Task: ");
                     String description = this.scanner.nextLine();
@@ -29,68 +37,68 @@ public class UserInterface {
                 case "update":
                     System.out.print("Index: ");
                     int updateIndex = Integer.valueOf(this.scanner.nextLine());
-                    if (updateIndex > this.taskList.allTasks().size() || updateIndex < 0) {
-                        System.out.println("Invalid index: 0 - " + this.taskList.allTasks().size());
+                    if (this.taskList.isListIndexValid(updateIndex)) {
+                        System.out.print("Update description: ");
+                        String updateDescription = this.scanner.nextLine();
+                        this.taskList.updateTask(updateIndex, updateDescription);
+                        continue;
+                    } else {
+                        System.out.println("Invalid index: 0 - " + (this.taskList.getListSize() - 1));
                         continue;
                     }
-                    System.out.print("Update description: ");
-                    String updateDescription = this.scanner.nextLine();
-                    this.taskList.updateTask(updateIndex, updateDescription);
-                    continue;
 
                 case "delete":
                     System.out.print("Index: ");
                     int deleteIndex = Integer.valueOf(this.scanner.nextLine());
-                    if (deleteIndex > this.taskList.allTasks().size() || deleteIndex < 0) {
-                        System.out.println("Invalid index: 0 - " + this.taskList.allTasks().size());
+                    if (this.taskList.isListIndexValid(deleteIndex)) {
+                        this.taskList.removeTask(deleteIndex);
+                        continue;
+                    } else {
+                        System.out.println("Invalid index: 0 - " + (this.taskList.getListSize() - 1));
                         continue;
                     }
-                    this.taskList.removeTask(deleteIndex);
-                    continue;
 
                 case "mark-done":
                     System.out.print("Index: ");
                     int doneIndex = Integer.valueOf(this.scanner.nextLine());
-                    if (doneIndex > this.taskList.allTasks().size() || doneIndex < 0) {
-                        System.out.println("Invalid index: 0 - " + this.taskList.allTasks().size());
+                    if (this.taskList.isListIndexValid(doneIndex)) {
+                        for (Task doneTask : this.taskList.allTasks()) {
+                            if (count == doneIndex) {
+                                doneTask.setStatus("done");
+                                doneTask.setUpdatedAt();
+                                count = 0;
+                                break;
+                            } else {
+                                count++;
+                            }
+                        }
+                        continue;
+                    } else {
+                        System.out.println("Invalid index: 0 - " + (this.taskList.getListSize() - 1));
                         continue;
                     }
-                    for (Task doneTask : this.taskList.allTasks()) {
-                        if (count == doneIndex) {
-                            doneTask.setStatus("done");
-                            doneTask.setUpdatedAt();
-                            count = 0;
-                            break;
-                        } else {
-                            count++;
-                        }
-                    }
-                    continue;
 
                 case "mark-in-progress":
                     System.out.print("Index: ");
-                    int index = Integer.valueOf(this.scanner.nextLine());
-                    if (index > this.taskList.allTasks().size() || index < 0) {
-                        System.out.println("Invalid index: 0 - " + this.taskList.allTasks().size());
+                    int inProgressIndex = Integer.valueOf(this.scanner.nextLine());
+                    if (this.taskList.isListIndexValid(inProgressIndex)) {
+                        for (Task inProgressTask : this.taskList.allTasks()) {
+                            if (count == inProgressIndex) {
+                                inProgressTask.setStatus("in-progress");
+                                inProgressTask.setUpdatedAt();
+                                count = 0;
+                                break;
+                            } else {
+                                count++;
+                            }
+                        }
+                        continue;
+                    } else {
+                        System.out.println("Invalid index: 0 - " + (this.taskList.getListSize() - 1));
                         continue;
                     }
-                    for (Task inProgressTask : this.taskList.allTasks()) {
-                        if (count == index) {
-                            inProgressTask.setStatus("in-progress");
-                            inProgressTask.setUpdatedAt();
-                            count = 0;
-                            break;
-                        } else {
-                            count++;
-                        }
-                    }
-                    continue;
                 default:
                     System.out.println("Invalid choice.");
-            }
-
-            for (Task task : this.taskList.allTasks()) {
-                System.out.println(task);
             }
         }
     }
