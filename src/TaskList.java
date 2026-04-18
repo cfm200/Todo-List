@@ -18,6 +18,34 @@ public class TaskList {
         updateTask.setUpdatedAt();
     }
 
+    public void updateStatusDone(int index) {
+        int count = 0;
+        for (Task task : this.taskList) {
+            if (index == count) {
+                task.setStatus("done");
+            } else {
+                count++;
+            }
+        }
+    }
+
+    public void updateStatusInProgress(int index) {
+        int count = 0;
+        for (Task task : this.taskList) {
+            if (index == count) {
+                task.setStatus("in-progress");
+            } else {
+                count++;
+            }
+        }
+    }
+
+    public void printAllTasks() {
+        for (Task task : this.taskList) {
+            System.out.println(task);
+        }
+    }
+
     public void removeTask(int index) {
         this.taskList.remove(index);
     }
@@ -27,7 +55,7 @@ public class TaskList {
     }
 
     public boolean isListIndexValid(int index) {
-        if (this.taskList.isEmpty() || index < 0 || index > this.taskList.size()) {
+        if (this.taskList.isEmpty() || index < 0 || index > this.taskList.size() - 1) {
             return false;
         } else {
             return true;

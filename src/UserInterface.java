@@ -22,9 +22,7 @@ public class UserInterface {
                         return;
                     }
 
-                    for (Task task : this.taskList.allTasks()) {
-                        System.out.println(task);
-                    }
+                    this.taskList.printAllTasks();
                     return;
 
                 case "add":
@@ -62,16 +60,7 @@ public class UserInterface {
                     System.out.print("Index: ");
                     int doneIndex = Integer.valueOf(this.scanner.nextLine());
                     if (this.taskList.isListIndexValid(doneIndex)) {
-                        for (Task doneTask : this.taskList.allTasks()) {
-                            if (count == doneIndex) {
-                                doneTask.setStatus("done");
-                                doneTask.setUpdatedAt();
-                                count = 0;
-                                break;
-                            } else {
-                                count++;
-                            }
-                        }
+                        this.taskList.updateStatusDone(doneIndex);
                         continue;
                     } else {
                         System.out.println("Invalid index: 0 - " + (this.taskList.getListSize() - 1));
@@ -82,16 +71,7 @@ public class UserInterface {
                     System.out.print("Index: ");
                     int inProgressIndex = Integer.valueOf(this.scanner.nextLine());
                     if (this.taskList.isListIndexValid(inProgressIndex)) {
-                        for (Task inProgressTask : this.taskList.allTasks()) {
-                            if (count == inProgressIndex) {
-                                inProgressTask.setStatus("in-progress");
-                                inProgressTask.setUpdatedAt();
-                                count = 0;
-                                break;
-                            } else {
-                                count++;
-                            }
-                        }
+                        this.taskList.updateStatusInProgress(inProgressIndex);
                         continue;
                     } else {
                         System.out.println("Invalid index: 0 - " + (this.taskList.getListSize() - 1));
