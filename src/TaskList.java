@@ -22,6 +22,18 @@ public class TaskList {
         this.taskList.remove(index);
     }
 
+    public int getListSize() {
+        return this.taskList.size();
+    }
+
+    public boolean isListIndexValid(int index) {
+        if (this.taskList.isEmpty() || index < 0 || index > this.taskList.size()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public List<Task> allTasks() {
         return this.taskList;
     }

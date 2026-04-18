@@ -50,6 +50,6 @@ public class Task {
     }
 
     public String toString() {
-        return "--------------------------------------------------\n" + this.id + ": " + this.description + "\nStatus: " + this.status + "\nCreated: " + this.createdAt + "\nUpdated: " + this.updatedAt + "\n----------------------------------------\n";
+        return "--------------------------------------------------\n" + this.id + ": " + this.description + "\nStatus: " + this.status + "\nCreated: " + this.createdAt + "\nUpdated: " + this.updatedAt + "\n--------------------------------------------------\n";
     }
 }
